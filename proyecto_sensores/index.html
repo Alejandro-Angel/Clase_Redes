@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Monitoreo Inteligente</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <section class="screen login-screen" id="loginContainer">
+    <div class="login-card">
+      <div class="login-top">
+        <div class="system-badge">SYS</div>
+        <h1>Acceso al Sistema</h1>
+        <p>Ingrese sus credenciales para acceder al panel de monitoreo</p>
+      </div>
+
+      <form id="loginForm" class="login-form">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="Ingrese su usuario" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Ingrese su contraseña" required>
+
+        <button type="submit">Iniciar Sesión</button>
+        <p id="errorMessage" class="error-message"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- PANEL PRINCIPAL -->
+  <section class="screen main-screen hidden" id="mainContainer">
+    <header class="topbar">
+      <div>
+        <h2>Panel de Monitoreo Inteligente</h2>
+        <p>Monitoreo visual en tiempo real de variables simuladas</p>
+      </div>
+      <button id="logoutBtn" class="logout-btn">Cerrar sesión</button>
+    </header>
+
+    <main class="dashboard">
+
+      <!-- SENSOR HUMEDAD -->
+      <div class="card">
+        <h3>Sensor de Humedad</h3>
+        <p class="sensor-value"><span id="humidityValue">50</span>%</p>
+        <input type="range" id="humiditySlider" min="0" max="100" value="50">
+
+        <div class="led-row">
+          <span>Estado:</span>
+          <div class="led red" id="humidityLed"></div>
+          <span id="humidityStatus">Bajo</span>
+        </div>
+
+        <p id="humidityDetail" class="detail">
+          La humedad está por debajo del nivel ideal.
+        </p>
+      </div>
+
+      <!-- SENSOR TEMPERATURA -->
+      <div class="card">
+        <h3>Sensor de Temperatura</h3>
+        <p class="sensor-value"><span id="tempValue">25</span>°C</p>
+        <input type="range" id="tempSlider" min="0" max="100" value="25">
+
+        <div class="led-row">
+          <span>Estado:</span>
+          <div class="led green" id="tempLed"></div>
+          <span id="tempStatus">Normal</span>
+        </div>
+
+        <p id="tempDetail" class="detail">
+          La temperatura se encuentra dentro del rango aceptable.
+        </p>
+      </div>
+
+      <!-- ESTADO GENERAL -->
+      <div class="card full-width">
+        <h3>Resumen General del Sistema</h3>
+        <div class="system-status">
+          <div class="big-led green" id="generalLed"></div>
+          <div>
+            <p id="generalStatus" class="general-status-text">Sistema estable</p>
+            <p id="generalMessage" class="detail">
+              Todos los sensores se encuentran operando dentro de parámetros normales.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
