@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de monitoreo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-body">
+  <div class="bg-blur bg-one"></div>
+  <div class="bg-blur bg-two"></div>
+  <div class="bg-blur bg-three"></div>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">panel principal</div>
+      <h1>Monitoreo del motor y temperatura</h1>
+      <p class="subtitle">visualización en tiempo real del sistema</p>
+    </div>
+
+    <a href="{{ url_for('logout') }}" class="logout-btn">cerrar sesión</a>
+  </header>
+
+  <main class="dashboard-container">
+    <section class="hero-panel glass-card">
+      <div class="hero-left">
+        <div class="status-pill" id="conexion-pill">Estado de conexión: estable</div>
+        <h2>Sistema embebido con puente H, LM35 y página web</h2>
+        <p>
+          Monitoreo en tiempo real del valor del sensor, rango activo,
+          PWM aplicado al motor y estado general del sistema.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="orbital-ring"></div>
+        <div class="core-badge">PWM</div>
+      </div>
+    </section>
+
+    <section class="cards-grid">
+      <article class="metric-card glass-card">
+        <span class="metric-label">temperatura</span>
+        <h3 id="temperatura">-- °C</h3>
+        <div class="bar">
+          <div id="bar-temp"></div>
+        </div>
+        <p>lectura actual del sensor LM35</p>
+      </article>
+
+      <article class="metric-card glass-card">
+        <span class="metric-label">rango activo</span>
+        <h3 id="rango">--</h3>
+        <p>clasificación del sistema en tres niveles</p>
+      </article>
+
+      <article class="metric-card glass-card">
+        <span class="metric-label">PWM aplicado</span>
+        <h3 id="pwm">--</h3>
+        <div class="pulse"></div>
+        <p>valor de control enviado al motor</p>
+      </article>
+
+      <article class="metric-card glass-card">
+        <span class="metric-label">estado del motor</span>
+        <h3 id="estado">--</h3>
+        <p>condición general del accionamiento</p>
+      </article>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
