@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Motor con Encoder</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Panel de control</p>
+        <h1>Motor DC con Encoder</h1>
+        <p class="subtitle">Control de giro, paro, reinicio y monitoreo en tiempo real.</p>
+      </div>
+      <a class="logout" href="/logout">Salir</a>
+    </header>
+
+    <section class="panel controls">
+      <h2>Controles</h2>
+      <div class="buttons">
+        <button id="btnRight" class="btn primary">Derecha</button>
+        <button id="btnLeft" class="btn secondary">Izquierda</button>
+        <button id="btnStop" class="btn danger">Paro</button>
+        <button id="btnReset" class="btn ghost">Reset</button>
+      </div>
+    </section>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Estado</span>
+        <strong id="estado">PARO</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">Pulsos</span>
+        <strong id="pulsos">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">Vueltas</span>
+        <strong id="vueltas">0.00</strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">m/s</span>
+        <strong id="velocidad">0.000</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Registro</h2>
+      <pre id="log"></pre>
+    </section>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
