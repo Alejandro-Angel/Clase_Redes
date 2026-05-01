@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema PID RPM | Motor con Encoder</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+  <div class="background-orb orb-one"></div>
+  <div class="background-orb orb-two"></div>
+  <div class="background-orb orb-three"></div>
+
+  <main class="dashboard">
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">
+          <span></span>
+        </div>
+
+        <div>
+          <p class="eyebrow">Control PID en tiempo real</p>
+          <h1>Motor DC con Encoder</h1>
+          <p class="subtitle">
+            Interfaz avanzada para controlar RPM con PID, medir error, visualizar PWM y activar semáforo físico con LEDs.
+          </p>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <div id="connectionBadge" class="connection-badge disconnected">
+          <span class="dot"></span>
+          <p>Sin conexión</p>
+        </div>
+
+        <a class="logout" href="/logout">Salir</a>
+      </div>
+    </header>
+
+    <section class="main-layout">
+
+      <section class="left-column">
+
+        <div class="glass-card control-panel">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Control manual</p>
+              <h2>Comandos del motor</h2>
+            </div>
+
+            <span id="motorStatePill" class="state-pill stopped">PARO</span>
+          </div>
+
+          <div class="button-grid">
+            <button id="btnRight" class="control-btn right">
+              <span class="btn-icon">↻</span>
+              <span>
+                <strong>Derecha</strong>
+                <small>Giro horario</small>
+              </span>
+            </button>
+
+            <button id="btnLeft" class="control-btn left">
+              <span class="btn-icon">↺</span>
+              <span>
+                <strong>Izquierda</strong>
+                <small>Giro antihorario</small>
+              </span>
+            </button>
+
+            <button id="btnStop" class="control-btn stop">
+              <span class="btn-icon">■</span>
+              <span>
+                <strong>Paro</strong>
+                <small>Detener motor</small>
+              </span>
+            </button>
+
+            <button id="btnReset" class="control-btn reset">
+              <span class="btn-icon">⟳</span>
+              <span>
+                <strong>Reset</strong>
+                <small>Reiniciar conteo</small>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-card reference-panel">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Referencia PID</p>
+              <h2>RPM deseadas</h2>
+            </div>
+
+            <span class="mini-tag">Se envía al Arduino</span>
+          </div>
+
+          <div class="reference-box">
+            <div>
+              <label for="rpmReferencia">RPM de referencia</label>
+              <input id="rpmReferencia" type="number" min="0" step="1" value="100">
+            </div>
+
+            <div class="reference-info">
+              <p>Este valor se manda al Arduino.</p>
+              <p>El PID modifica el PWM para acercarse a la referencia.</p>
+            </div>
+          </div>
+
+          <div class="tolerance-grid">
+            <div class="tolerance-item green">
+              <span></span>
+              <p><strong>Verde</strong>Error menor o igual a 5%</p>
+            </div>
+
+            <div class="tolerance-item yellow">
+              <span></span>
+              <p><strong>Amarillo</strong>Error entre 5% y 15%</p>
+            </div>
+
+            <div class="tolerance-item red">
+              <span></span>
+              <p><strong>Rojo</strong>Error mayor a 15%</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="semaforoCard" class="semaphore-panel red-mode">
+          <div class="semaphore-content">
+            <p class="section-kicker">Semáforo físico y virtual</p>
+            <h2 id="semaforoTexto">Rojo</h2>
+            <p id="semaforoDetalle">
+              El motor está lejos de la referencia.
+            </p>
+
+            <div class="hardware-status">
+              <span>LED físico activo</span>
+              <strong id="ledFisico">LED rojo encendido | Pin 10</strong>
+            </div>
+
+            <div class="error-summary">
+              <div>
+                <span>Error absoluto</span>
+                <strong id="errorAbsolutoVista">0.0 RPM</strong>
+              </div>
+
+              <div>
+                <span>Error porcentual</span>
+                <strong id="errorPorcentajeVista">0.0%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="traffic-light">
+            <div id="luzRoja" class="light red active"></div>
+            <div id="luzAmarilla" class="light yellow"></div>
+            <div id="luzVerde" class="light green"></div>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="right-column">
+
+        <section class="stats-grid">
+          <article class="metric-card rpm-main">
+            <div class="metric-top">
+              <span>RPM reales</span>
+              <small>Encoder</small>
+            </div>
+
+            <strong id="rpmReal">0.0</strong>
+
+            <div class="meter">
+              <div id="rpmMeterFill"></div>
+            </div>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-top">
+              <span>RPM referencia</span>
+              <small>PID</small>
+            </div>
+
+            <strong id="rpmReferenciaVista">100</strong>
+            <p class="metric-note">Valor objetivo enviado al Arduino</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-top">
+              <span>Error</span>
+              <small>Referencia - medición</small>
+            </div>
+
+            <strong id="errorRPM">0.0</strong>
+            <p id="errorDirection" class="metric-note">Sin diferencia</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-top">
+              <span>PWM aplicado</span>
+              <small>Salida PID</small>
+            </div>
+
+            <strong id="pwmActual">0</strong>
+            <p class="metric-note">Valor de 0 a 255</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-top">
+              <span>Estado</span>
+              <small>Motor</small>
+            </div>
+
+            <strong id="estado">PARO</strong>
+            <p id="estadoDescripcion" class="metric-note">Motor detenido</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-top">
+              <span>Pulsos</span>
+              <small>Encoder</small>
+            </div>
+
+            <strong id="pulsos">0</strong>
+            <p class="metric-note">Conteo acumulado</p>
+          </article>
+
+          <article class="metric-card">
+            <div class="metric-top">
+              <span>Vueltas</span>
+              <small>Calculadas</small>
+            </div>
+
+            <strong id="vueltas">0.00</strong>
+            <p class="metric-note">Pulsos / pulsos por vuelta</p>
+          </article>
+        </section>
+
+        <div class="glass-card graph-panel">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Gráfica en tiempo real</p>
+              <h2>RPM reales vs referencia</h2>
+            </div>
+
+            <span id="lastUpdate" class="mini-tag">Esperando datos</span>
+          </div>
+
+          <canvas id="rpmChart" width="900" height="320"></canvas>
+
+          <div class="chart-legend">
+            <div>
+              <span class="legend-real"></span>
+              RPM reales
+            </div>
+
+            <div>
+              <span class="legend-ref"></span>
+              Referencia
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card diagnostic-panel">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Diagnóstico automático</p>
+              <h2>Evaluación del sistema</h2>
+            </div>
+          </div>
+
+          <div id="diagnostico" class="diagnostic-message">
+            Esperando lectura del motor.
+          </div>
+        </div>
+
+        <div class="glass-card log-panel">
+          <div class="section-header">
+            <div>
+              <p class="section-kicker">Consola</p>
+              <h2>Registro de comunicación</h2>
+            </div>
+
+            <button id="btnClearLog" class="small-btn">Limpiar</button>
+          </div>
+
+          <pre id="log"></pre>
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
