@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel Carrito WiFi</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+  <header class="top">
+    <div>
+      <h1>Panel de control — Carrito</h1>
+      <p class="sub">Raspberry Pi 4 + Arduino UNO + Simulación SolidWorks</p>
+    </div>
+
+    <div class="top-right">
+      <span id="estado" class="status">Verificando...</span>
+      <a class="logout" href="/logout">Salir</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- VIDEO SOLIDWORKS -->
+    <section class="camera-card">
+      <div class="card-head">
+        <div class="dot solid-dot"></div>
+        <div class="titles">
+          <h2>Simulación SolidWorks</h2>
+          <p>Animación sincronizada con el movimiento del carrito</p>
+        </div>
+        <div class="pill">Movimiento: <span id="simEstado">Reposo</span></div>
+      </div>
+
+      <div class="video-box sim-box">
+        <video id="solidVideo" muted loop playsinline>
+          <source src="/multimedia/reposo.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
+
+    <section class="grid">
+
+      <!-- MOVIMIENTO -->
+      <article class="card control-card">
+        <div class="card-head">
+          <div class="dot" id="dotMove"></div>
+          <div class="titles">
+            <h2>Movimiento manual</h2>
+            <p>Mantén presionado para mover el carrito</p>
+          </div>
+          <div class="pill">Comando: <span id="cmdActual">S</span></div>
+        </div>
+
+        <div class="control-pad">
+          <div></div>
+          <button class="move-btn" data-cmd="F">▲</button>
+          <div></div>
+
+          <button class="move-btn" data-cmd="L">◀</button>
+          <button class="stop-btn" data-cmd="S">STOP</button>
+          <button class="move-btn" data-cmd="R">▶</button>
+
+          <div></div>
+          <button class="move-btn" data-cmd="B">▼</button>
+          <div></div>
+        </div>
+      </article>
+
+      <!-- SERVO -->
+      <article class="card">
+        <div class="card-head">
+          <div class="dot"></div>
+          <div class="titles">
+            <h2>Servo</h2>
+            <p>Movimiento del servo del carrito</p>
+          </div>
+        </div>
+
+        <div class="two-buttons">
+          <button data-cmd="G" class="cmd-btn">Servo izquierda</button>
+          <button data-cmd="H" class="cmd-btn">Servo derecha</button>
+        </div>
+      </article>
+
+      <!-- MODOS -->
+      <article class="card">
+        <div class="card-head">
+          <div class="dot"></div>
+          <div class="titles">
+            <h2>Modos automáticos</h2>
+            <p>Sensores del carrito</p>
+          </div>
+        </div>
+
+        <div class="mode-list">
+          <button data-cmd="T" class="cmd-btn">Seguidor de línea</button>
+          <button data-cmd="A" class="cmd-btn">Evasión ultrasónica</button>
+          <button data-cmd="Z" class="cmd-btn">Seguir objeto</button>
+          <button data-cmd="S" class="cmd-btn danger">Detener modo</button>
+        </div>
+      </article>
+
+      <!-- ESTADO -->
+      <article class="card">
+        <div class="card-head">
+          <div class="dot"></div>
+          <div class="titles">
+            <h2>Estado del sistema</h2>
+            <p>Comunicación con Arduino por USB</p>
+          </div>
+        </div>
+
+        <button id="btnCheck" class="btn">Probar conexión</button>
+        <p class="system-text" id="systemText">Esperando prueba...</p>
+      </article>
+
+    </section>
+
+    <!-- CONSOLA -->
+    <section class="console">
+      <div class="console-head">
+        <strong>Consola</strong>
+        <button id="btnClear" class="btn">Limpiar</button>
+      </div>
+      <pre id="log" class="log">Listo.</pre>
+    </section>
+
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
