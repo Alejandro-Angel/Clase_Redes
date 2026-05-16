@@ -1,6 +1,0 @@
-//The code has already been uploaded to ESP32cam before leaving the factory, so there is no need to upload it again. 
-//If you want to modify the code in ESP32Cam yourself, you can refer to this source code.
-
-Important Tips for Using Arduino IDE
-//        Board Manager package: Install esp32 by Espressif Systems  Ver 2.0.14
-//          Tools-->Board-->esp32-->AI Thinker ESP32-CAM
