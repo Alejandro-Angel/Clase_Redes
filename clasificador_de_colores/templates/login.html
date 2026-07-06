@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acceso de Operador</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+
+<body class="loginBody">
+
+  <main class="loginCard">
+
+    <div class="loginHeader">
+      <div>
+        <h1>Acceso de Operador</h1>
+        <p>Panel del clasificador automático de colores.</p>
+      </div>
+
+      <span class="loginBadge">Sistema protegido</span>
+    </div>
+
+    <section class="loginBox">
+      <h2>Iniciar sesión</h2>
+
+      <form method="POST" action="/login" class="loginForm">
+
+        <label for="username">Usuario</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Ingresa tu usuario"
+          autocomplete="username"
+          required
+        />
+
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Ingresa tu contraseña"
+          autocomplete="current-password"
+          required
+        />
+
+        <button type="submit" class="loginButton">
+          Entrar al sistema
+        </button>
+
+      </form>
+
+      <p class="loginHelp">
+        Ingresa tus credenciales para acceder al panel de operación.
+      </p>
+    </section>
+
+    <section class="projectBox">
+      <h2>Proyecto</h2>
+
+      <div class="projectGrid">
+        <div class="projectItem">
+          <span>Sistema</span>
+          <strong>Clasificador</strong>
+        </div>
+
+        <div class="projectItem">
+          <span>Colores</span>
+          <strong>4</strong>
+        </div>
+
+        <div class="projectItem">
+          <span>Meta</span>
+          <strong>30 piezas</strong>
+        </div>
+
+        <div class="projectItem">
+          <span>Modo</span>
+          <strong>Operador</strong>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>
