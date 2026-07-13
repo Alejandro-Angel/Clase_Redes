@@ -22,7 +22,7 @@ const bool INVERTIR_ENCODER = false;
 
 const long POS_ROJO = -900;
 const long POS_VERDE = 0;
-const long POS_AZUL = 899;
+const long POS_AZUL = 890;
 
 const long POS_CENTRO = 0;
 
